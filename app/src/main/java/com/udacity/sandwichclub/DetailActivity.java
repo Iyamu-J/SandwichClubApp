@@ -85,6 +85,7 @@ public class DetailActivity extends AppCompatActivity {
      */
     private void populateUI(Sandwich sandwich) {
 
+
         originTextView.setText(sandwich.getPlaceOfOrigin());
         descriptionTextView.setText(sandwich.getDescription());
 
