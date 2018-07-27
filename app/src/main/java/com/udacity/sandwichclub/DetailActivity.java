@@ -2,7 +2,6 @@ package com.udacity.sandwichclub;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,7 +11,6 @@ import com.squareup.picasso.Picasso;
 import com.udacity.sandwichclub.model.Sandwich;
 import com.udacity.sandwichclub.utils.JsonUtils;
 
-import org.json.JSONException;
 
 import java.util.List;
 
@@ -51,12 +49,7 @@ public class DetailActivity extends AppCompatActivity {
 
         String[] sandwiches = getResources().getStringArray(R.array.sandwich_details);
         String json = sandwiches[position];
-        Sandwich sandwich = null;
-        try {
-            sandwich = JsonUtils.parseSandwichJson(json);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        Sandwich sandwich = JsonUtils.parseSandwichJson(json);
         if (sandwich == null) {
             // Sandwich data unavailable
             closeOnError();
@@ -86,8 +79,8 @@ public class DetailActivity extends AppCompatActivity {
     private void populateUI(Sandwich sandwich) {
 
 
-        originTextView.setText(sandwich.getPlaceOfOrigin());
-        descriptionTextView.setText(sandwich.getDescription());
+        originTextView.setText(checkIfStringIsEmpty(sandwich.getPlaceOfOrigin()));
+        descriptionTextView.setText(checkIfStringIsEmpty(sandwich.getDescription()));
 
         List<String> alsoKnownAsList = sandwich.getAlsoKnownAs();
         alsoKnownTextView.setText(removeBrackets(alsoKnownAsList));
@@ -108,6 +101,14 @@ public class DetailActivity extends AppCompatActivity {
         String temp = list.toString();
         temp = temp.replace("[", "");
         temp = temp.replace("]", "");
-        return temp;
+        return checkIfStringIsEmpty(temp);
+    }
+
+    private String checkIfStringIsEmpty(String s) {
+        if (s.isEmpty()) {
+            return "Not Available";
+        } else {
+            return s;
+        }
     }
 }
